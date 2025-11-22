@@ -1,6 +1,4 @@
-﻿using GeneratorCore.Models.Enums;
-
-namespace GeneratorCore.Models;
+﻿namespace GeneratorCore.Models;
 
 public class DaylightRecord
 {
@@ -36,48 +34,5 @@ public class DaylightRecord
 	public override string ToString()
 	{
 		return $"{Date:MMMM dd}, Sunrise: {Sunrise}, Sunset: {Sunset}, Duration: {Duration}, Gain: {Gain}, Loss: {Loss}, Notes: {Notes}";
-	}
-
-	public string TimeDifferenceString()
-	{
-		return $"Giving us {Duration.Hour} hours and {Duration.Minute} minutes of daylight; {LessOrMoreString}";
-	}
-
-	public string SunriseString(TimeOfDay timeOfDay, TimeWindow timeWindow)
-	{
-		// if the sunrise is before the range
-		if (Sunrise < timeWindow.Start)
-		{
-			return $"The sun rose this morning in Bethel at {Sunrise}";
-		}
-		// If the sunrise is in the range
-		else if (timeWindow.Start <= Sunrise && Sunrise <= timeWindow.End)
-		{
-			return $"Sunrise this morning in Bethel, at {Sunrise}";
-		}
-		// if the sunrise is after the range
-		else
-		{
-			return $"The sun will rise this morning at {Sunrise}.";
-		}
-	}
-
-	public string SunsetString(TimeOfDay timeOfDay, TimeWindow timeWindow)
-	{
-		// if the sunset is before the range
-		if (Sunset < timeWindow.Start)
-		{
-			return $"And the sun set at {Sunset}";
-		}
-		// If the suset is in the range
-		else if (timeWindow.Start <= Sunset && Sunset <= timeWindow.End)
-		{
-			return $"And Sunset, at {Sunset}";
-		}
-		// if the sunset is after the range
-		else
-		{
-			return $"And it will set this evening at {Sunset}";
-		}
 	}
 }

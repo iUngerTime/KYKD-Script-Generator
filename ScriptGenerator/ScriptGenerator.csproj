@@ -8,13 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Resources\**" />
-	  <EmbeddedResource Remove="Resources\**" />
-	  <None Remove="Resources\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Generator\GeneratorCore.csproj" />
+		<ProjectReference Include="..\GeneratoreCore\GeneratoreCore.csproj" />
 	</ItemGroup>
 
 </Project>

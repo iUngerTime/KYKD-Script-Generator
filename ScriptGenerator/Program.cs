@@ -1,21 +1,37 @@
-﻿using GeneratorCore.Helpers;
-using GeneratorCore.Models.Enums;
+﻿using GeneratorCore.Models.Enums;
+using GeneratoreCore;
 
-//List<TideInfo> results = parseTides.GetTideDetailsForDay(Village.Togiak, TimeOfDay.Afternoon, 6, 6);
-//foreach (var tide in results)
-//{
-//    Console.WriteLine(tide.ToString());
-//}
-
+// Configuration
 int year = 2026;
-for (int month = 3; month <= 12; month++)
+string resourceDir = $"{year} Tides and Daylight Scripts";
+TimeOfDay[] periods = [TimeOfDay.Morning, TimeOfDay.Evening];
+
+// Resolve template path relative to build output
+string templatePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Resources", resourceDir, "script-template.txt"));
+string scriptsDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Resources", resourceDir, "Scripts"));
+Directory.CreateDirectory(scriptsDir);
+
+var provider = new DefaultScriptDataProvider();
+var generator = new TideScriptGenerator(provider, templatePath);
+
+// Loop through all days of the year
+for (int month = 1; month <= 12; month++)
 {
 	int daysInMonth = DateTime.DaysInMonth(year, month);
 	for (int day = 1; day <= daysInMonth; day++)
 	{
-		Generator.CreateTideScript(month, day, TimeOfDay.Morning);
-		Generator.CreateTideScript(month, day, TimeOfDay.Evening);
+		var date = new DateOnly(year, month, day);
+		foreach (var period in periods)
+		{
+			string content = generator.Generate(date, period);
+			string fileName = $"{month}-{day}-Tides-{period.ToShortString()}-GeneratedScript.txt";
+			string filePath = Path.Combine(scriptsDir, fileName);
+
+			File.WriteAllText(filePath, content);
+
+			Console.WriteLine($"Wrote {fileName}");
+		}
 	}
 }
 
-//scriptGenerator.CreateTideScript(3, 9, TimeOfDay.Evening);
+Console.WriteLine("Script generation complete.");

@@ -60,12 +60,4 @@ class ParseDaylight
 	{
 		return allDaylightRecords.First(x => x.Date.Month == month && x.Date.Day == day);
 	}
-
-	public void PrintAllDaylightRecords()
-	{
-		foreach (var record in allDaylightRecords)
-		{
-			Console.WriteLine(record.TimeDifferenceString());
-		}
-	}
 }
