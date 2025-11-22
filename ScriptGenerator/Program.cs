@@ -11,7 +11,7 @@ string outputDir = "Scripts";
 TimeOfDay[] periods = [TimeOfDay.Morning, TimeOfDay.Evening];
 
 // Create all relevant resource paths
-string baseDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Resources", resourceDir));
+string baseDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "Resources", resourceDir));
 string daylightExcelPath = Path.Combine(baseDir, daylightExcel);
 string tidesExcelPath = Path.Combine(baseDir, tidesExcel);
 string templatePath = Path.Combine(baseDir, scriptTemplate);
@@ -31,7 +31,7 @@ for (int month = 1; month <= 12; month++)
 		DateOnly date = new(year, month, day);
 		foreach (TimeOfDay period in periods)
 		{
-			string content = generator.Generate(date, period);
+			string content = generator.GenerateScriptForDay(date, period);
 			string fileName = $"{month}-{day}-Tides-{period.ToShortString()}-GeneratedScript.txt";
 			string filePath = Path.Combine(scriptsOutputDir, fileName);
 

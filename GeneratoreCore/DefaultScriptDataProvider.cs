@@ -2,6 +2,7 @@ using GeneratorCore.Helpers;
 using GeneratorCore.Models;
 using GeneratorCore.Models.Enums;
 using GeneratoreCore.Builders;
+using GeneratoreCore.Parsers;
 
 namespace GeneratoreCore;
 
@@ -16,13 +17,13 @@ public class DefaultScriptDataProvider : IScriptDataProvider
 		int month = date.Month;
 		int day = date.Day;
 
-		DaylightRecord daylight = ParseDaylight.GetInstance().GetDaylightInfoForDay(month, day);
+		DaylightRecord daylight = DaylightParser.GetInstance().GetDaylightInfoForDay(month, day);
 		TimeWindow window = TimeWindowCalculator.GetTimeWindow(date, timeOfDay);
 
 		// Build daylight lines
 		string sunrise = DaylightLineBuilder.BuildSunrise(daylight, timeOfDay);
 		string sunset = DaylightLineBuilder.BuildSunset(daylight, timeOfDay);
-		string daylightLength = DaylightLineBuilder.BuildDaylightLength(daylight);
+		string daylightLength = DaylightLineBuilder.BuildDaylightLength(daylight, timeOfDay);
 
 		// Village tide lines
 		string bethel = BuildVillageTideInfo(Village.Bethel, date, timeOfDay, window);
@@ -46,7 +47,7 @@ public class DefaultScriptDataProvider : IScriptDataProvider
 
 	private string BuildVillageTideInfo(Village village, DateOnly date, TimeOfDay timeOfDay, TimeWindow window)
 	{
-		List<TideInfo> tides = ParseTides.GetInstance().GetTideDetailsForDate(village, date, timeOfDay);
+		List<TideInfo> tides = TideParser.GetInstance().GetTideDetailsForDate(village, date, timeOfDay);
 		return VillageTideLineBuilder.AggregateLines(tides, village, window);
 	}
 }

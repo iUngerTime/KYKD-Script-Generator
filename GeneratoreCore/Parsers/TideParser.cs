@@ -1,35 +1,33 @@
-﻿using GeneratorCore.Models;
+﻿using GeneratorCore.Helpers;
+using GeneratorCore.Models;
 using GeneratorCore.Models.Enums;
 using IronXL;
 
-namespace GeneratorCore.Helpers;
+namespace GeneratoreCore.Parsers;
 
-public class ParseTides
+public class TideParser
 {
-	private static ParseTides? instance;
-	public static ParseTides GetInstance()
+	private static TideParser? instance;
+
+	public static TideParser GetInstance()
 	{
 		if (instance == null)
 		{
-			instance = new ParseTides();
+			instance = new TideParser();
 		}
+
 		return instance;
 	}
 
-	private ParseTides()
-	{
-		LoadTideInfo();
-	}
+	private TideParser()
+	{ }
 
 	List<TideDay> allTidesAllVilages = new();
 
-	private void LoadTideInfo()
+	public void LoadTideInfo(string excelDataPath)
 	{
-		Console.WriteLine("Loading tide info...\n\n");
-		string filePath = Path.Combine("Files", "2025 Tides.xlsx"); ErrorEventArgs;
-
 		// Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
-		WorkBook workbook = WorkBook.Load(filePath);
+		WorkBook workbook = WorkBook.Load(excelDataPath);
 		WorkSheet sheet = workbook.WorkSheets.First();
 
 		List<TideDay> tides =
@@ -133,11 +131,6 @@ public class ParseTides
 
 	private List<TideDay> GetVillageTidesForYear(Village village)
 	{
-		if (allTidesAllVilages == null)
-		{
-			LoadTideInfo();
-		}
-
 		return allTidesAllVilages!.Where(x => x.RelatedVillage == village).ToList();
 	}
 }

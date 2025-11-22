@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace GeneratoreCore.Helpers;
 
-public static class TemplateRenderer
+static class TemplateRenderer
 {
 	private static readonly Regex TokenRegex = new(@"\{\{([A-Za-z0-9_]+)\}\}", RegexOptions.Compiled);
 

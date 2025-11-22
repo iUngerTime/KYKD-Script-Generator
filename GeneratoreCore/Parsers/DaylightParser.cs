@@ -1,36 +1,31 @@
 ﻿using GeneratorCore.Models;
 using IronXL;
 
-namespace GeneratorCore.Helpers;
+namespace GeneratoreCore.Parsers;
 
-class ParseDaylight
+public class DaylightParser
 {
-	private static ParseDaylight? instance = null;
+	private static DaylightParser? instance = null;
 
-	public static ParseDaylight GetInstance()
+	public static DaylightParser GetInstance()
 	{
 		if (instance == null)
 		{
-			instance = new ParseDaylight();
+			instance = new DaylightParser();
 		}
 
 		return instance;
 	}
 
-	private ParseDaylight()
-	{
-		LoadTideInfo();
-	}
+	private DaylightParser()
+	{ }
 
 	List<DaylightRecord> allDaylightRecords = new();
 
-	private void LoadTideInfo()
+	public void LoadDaylightRecords(string excelDataPath)
 	{
-		Console.WriteLine("Loading Daylight record info...");
-		string filePath = Path.Combine("Files", "2025 Bethel Daylight.xlsx");
-
 		// Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
-		WorkBook workbook = WorkBook.Load(filePath);
+		WorkBook workbook = WorkBook.Load(excelDataPath);
 		WorkSheet sheet = workbook.WorkSheets.First();
 
 		for (int i = 2; i < 366; i++)
@@ -47,11 +42,10 @@ class ParseDaylight
 			string sunrise = cells[3].StringValue;
 			string sunset = cells[4].StringValue;
 			string duration = cells[5].Text;
-			string gain = cells[6].Text;
-			string loss = cells[7].Text;
-			string notes = cells[8].Text;
+			string change = cells[6].Text;
+			string quantifier = cells[8].Text;
 
-			DaylightRecord tide = new(month, day, sunrise, sunset, duration, gain, loss, notes);
+			DaylightRecord tide = new(month, day, sunrise, sunset, duration, change, quantifier);
 			allDaylightRecords.Add(tide);
 		}
 	}
