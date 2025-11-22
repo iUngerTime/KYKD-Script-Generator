@@ -4,7 +4,7 @@ using GeneratoreCore.Builders;
 
 namespace GenerationTests;
 
-public class GenerationTests
+public class DaylightBuilderTests
 {
 	private DaylightRecord MakeRecord(string sunrise, string sunset, string duration)
 	{
