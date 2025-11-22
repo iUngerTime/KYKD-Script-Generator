@@ -22,7 +22,7 @@ class ParseDaylight
 		LoadTideInfo();
 	}
 
-	List<DaylightRecord> allDaylightRecords = new List<DaylightRecord>();
+	List<DaylightRecord> allDaylightRecords = new();
 
 	private void LoadTideInfo()
 	{
@@ -36,7 +36,7 @@ class ParseDaylight
 		for (int i = 2; i < 366; i++)
 		{
 			// Get all cells for the daylight record
-			var cells = sheet[$"A{i}:I{i}"].ToList();
+			List<Cell> cells = sheet[$"A{i}:I{i}"].ToList();
 
 			// Skip empty rows
 			if (cells[0].IsEmpty || cells[0].Text.Contains('=')) continue;
@@ -51,7 +51,7 @@ class ParseDaylight
 			string loss = cells[7].Text;
 			string notes = cells[8].Text;
 
-			DaylightRecord tide = new DaylightRecord(month, day, sunrise, sunset, duration, gain, loss, notes);
+			DaylightRecord tide = new(month, day, sunrise, sunset, duration, gain, loss, notes);
 			allDaylightRecords.Add(tide);
 		}
 	}

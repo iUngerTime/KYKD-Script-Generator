@@ -4,15 +4,23 @@ using GeneratoreCore;
 // Configuration
 int year = 2026;
 string resourceDir = $"{year} Tides and Daylight Scripts";
+string tidesExcel = $"{year} Tides.xlsx";
+string daylightExcel = $"{year} Bethel Daylight.xlsx";
+string scriptTemplate = "script-template.txt";
+string outputDir = "Scripts";
 TimeOfDay[] periods = [TimeOfDay.Morning, TimeOfDay.Evening];
 
-// Resolve template path relative to build output
-string templatePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Resources", resourceDir, "script-template.txt"));
-string scriptsDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Resources", resourceDir, "Scripts"));
-Directory.CreateDirectory(scriptsDir);
+// Create all relevant resource paths
+string baseDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Resources", resourceDir));
+string daylightExcelPath = Path.Combine(baseDir, daylightExcel);
+string tidesExcelPath = Path.Combine(baseDir, tidesExcel);
+string templatePath = Path.Combine(baseDir, scriptTemplate);
+string scriptsOutputDir = Path.Combine(baseDir, outputDir);
 
-var provider = new DefaultScriptDataProvider();
-var generator = new TideScriptGenerator(provider, templatePath);
+Directory.CreateDirectory(scriptsOutputDir);
+
+DefaultScriptDataProvider provider = new();
+TideScriptGenerator generator = new(provider, daylightExcelPath, tidesExcelPath, templatePath);
 
 // Loop through all days of the year
 for (int month = 1; month <= 12; month++)
@@ -20,12 +28,12 @@ for (int month = 1; month <= 12; month++)
 	int daysInMonth = DateTime.DaysInMonth(year, month);
 	for (int day = 1; day <= daysInMonth; day++)
 	{
-		var date = new DateOnly(year, month, day);
-		foreach (var period in periods)
+		DateOnly date = new(year, month, day);
+		foreach (TimeOfDay period in periods)
 		{
 			string content = generator.Generate(date, period);
 			string fileName = $"{month}-{day}-Tides-{period.ToShortString()}-GeneratedScript.txt";
-			string filePath = Path.Combine(scriptsDir, fileName);
+			string filePath = Path.Combine(scriptsOutputDir, fileName);
 
 			File.WriteAllText(filePath, content);
 

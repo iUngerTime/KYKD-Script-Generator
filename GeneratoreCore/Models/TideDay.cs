@@ -22,9 +22,9 @@ public class TideDay
 
 	public override string ToString()
 	{
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new();
 		sb.AppendLine($"Date: {Date.ToShortDateString()}");
-		foreach (var tide in Tides)
+		foreach (TideInfo tide in Tides)
 		{
 			sb.AppendLine($"\t{tide.ToString()}");
 		}

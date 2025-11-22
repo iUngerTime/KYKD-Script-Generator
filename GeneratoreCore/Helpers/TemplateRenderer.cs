@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace GeneratoreCore;
+namespace GeneratoreCore.Helpers;
 
 public static class TemplateRenderer
 {
@@ -9,12 +9,12 @@ public static class TemplateRenderer
 	public static string Render(string templatePath, ScriptContext ctx)
 	{
 		string template = File.ReadAllText(templatePath);
-		var map = ctx.AsDictionary();
+		Dictionary<string, string> map = ctx.AsDictionary();
 
 		return TokenRegex.Replace(template, m =>
 		{
-			var key = m.Groups[1].Value;
-			return map.TryGetValue(key, out var val) ? val : $"[[MISSING:{key}]]";
+			string key = m.Groups[1].Value;
+			return map.TryGetValue(key, out string? val) ? val : $"[[MISSING:{key}]]";
 		});
 	}
 }

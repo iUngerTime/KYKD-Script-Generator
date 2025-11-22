@@ -20,9 +20,9 @@ public static class VillageTideLineBuilder
 
 	public static string AggregateLines(List<TideInfo> tides, Village village, TimeWindow window)
 	{
-		var primary = BuildPrimary(tides, village, window);
-		var secondary = BuildSecondary(tides);
-		var tertiary = BuildTertiary(tides);
+		string primary = BuildPrimary(tides, village, window);
+		string secondary = BuildSecondary(tides);
+		string tertiary = BuildTertiary(tides);
 		return string.Join('\n', new[] { primary, secondary, tertiary }.Where(s => !string.IsNullOrWhiteSpace(s)));
 	}
 }

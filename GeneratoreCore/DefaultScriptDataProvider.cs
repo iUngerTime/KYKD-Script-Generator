@@ -5,11 +5,10 @@ using GeneratoreCore.Builders;
 
 namespace GeneratoreCore;
 
-public interface IScriptDataProvider
-{
-	public ScriptContext Build(DateOnly date, TimeOfDay timeOfDay);
-}
-
+/// <summary>
+/// The default provider parses tide and daylight data from Excel files
+/// located in the global resources directory.
+/// </summary>
 public class DefaultScriptDataProvider : IScriptDataProvider
 {
 	public ScriptContext Build(DateOnly date, TimeOfDay timeOfDay)
@@ -17,8 +16,8 @@ public class DefaultScriptDataProvider : IScriptDataProvider
 		int month = date.Month;
 		int day = date.Day;
 
-		var daylight = ParseDaylight.GetInstance().GetDaylightInfoForDay(month, day);
-		var window = TimeWindowCalculator.GetTimeWindowForDate(month, day, timeOfDay);
+		DaylightRecord daylight = ParseDaylight.GetInstance().GetDaylightInfoForDay(month, day);
+		TimeWindow window = TimeWindowCalculator.GetTimeWindow(date, timeOfDay);
 
 		// Build daylight lines
 		string sunrise = DaylightLineBuilder.BuildSunrise(daylight, timeOfDay);
@@ -26,9 +25,9 @@ public class DefaultScriptDataProvider : IScriptDataProvider
 		string daylightLength = DaylightLineBuilder.BuildDaylightLength(daylight);
 
 		// Village tide lines
-		string bethel = BuildVillage(Village.Bethel, timeOfDay, month, day, window);
-		string quinhagak = BuildVillage(Village.Quinhagak, timeOfDay, month, day, window);
-		string togiak = BuildVillage(Village.Togiak, timeOfDay, month, day, window);
+		string bethel = BuildVillageTideInfo(Village.Bethel, date, timeOfDay, window);
+		string quinhagak = BuildVillageTideInfo(Village.Quinhagak, date, timeOfDay, window);
+		string togiak = BuildVillageTideInfo(Village.Togiak, date, timeOfDay, window);
 
 		return new ScriptContext
 		{
@@ -45,9 +44,9 @@ public class DefaultScriptDataProvider : IScriptDataProvider
 		};
 	}
 
-	private string BuildVillage(Village village, TimeOfDay timeOfDay, int month, int day, TimeWindow window)
+	private string BuildVillageTideInfo(Village village, DateOnly date, TimeOfDay timeOfDay, TimeWindow window)
 	{
-		var tides = ParseTides.GetInstance().GetTideDetailsForDay(village, timeOfDay, month, day);
+		List<TideInfo> tides = ParseTides.GetInstance().GetTideDetailsForDate(village, date, timeOfDay);
 		return VillageTideLineBuilder.AggregateLines(tides, village, window);
 	}
 }

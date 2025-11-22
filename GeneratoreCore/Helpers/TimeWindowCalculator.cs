@@ -5,17 +5,17 @@ namespace GeneratorCore.Helpers;
 
 static class TimeWindowCalculator
 {
-	static public TimeWindow GetTimeWindowForDate(int month, int day, TimeOfDay timeOfDay)
+	/// <summary>
+	/// Returns the time window corresponding to the specified date and time of day.
+	/// </summary>
+	/// <param name="date">The date for which to retrieve the time window. The day of the week is determined from this value.</param>
+	/// <param name="timeOfDay">The time of day category (such as morning, afternoon, or evening) for which to retrieve the time window.</param>
+	/// <returns>A TimeWindow instance representing the start and end times for the specified date and time of day.</returns>
+	/// <exception cref="ArgumentOutOfRangeException">Thrown when the specified combination of date and time of day does not correspond to a defined time window.</exception>
+	static public TimeWindow GetTimeWindow(DateOnly date, TimeOfDay timeOfDay)
 	{
-		// Create a DateOnly object for the given date
-		DateOnly date = new DateOnly(2025, month, day);
-		TimeWindow timeWindow = GetWindowOfTime(date.DayOfWeek, timeOfDay);
+		DayOfWeek dayOfWeek = date.DayOfWeek;
 
-		return timeWindow;
-	}
-
-	static private TimeWindow GetWindowOfTime(DayOfWeek dayOfWeek, TimeOfDay timeOfDay)
-	{
 		switch (dayOfWeek)
 		{
 			case DayOfWeek.Monday:

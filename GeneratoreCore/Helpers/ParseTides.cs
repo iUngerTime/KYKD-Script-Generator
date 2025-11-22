@@ -21,12 +21,12 @@ public class ParseTides
 		LoadTideInfo();
 	}
 
-	List<TideDay> allTidesAllVilages = new List<TideDay>();
+	List<TideDay> allTidesAllVilages = new();
 
 	private void LoadTideInfo()
 	{
 		Console.WriteLine("Loading tide info...\n\n");
-		string filePath = Path.Combine("Files", "2025 Tides.xlsx");
+		string filePath = Path.Combine("Files", "2025 Tides.xlsx"); ErrorEventArgs;
 
 		// Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
 		WorkBook workbook = WorkBook.Load(filePath);
@@ -44,30 +44,30 @@ public class ParseTides
 
 	public void ParseAllTides()
 	{
-		foreach (var tide in allTidesAllVilages)
+		foreach (TideDay tide in allTidesAllVilages)
 		{
 			Console.WriteLine(tide.ToString());
 		}
 	}
 
-	public List<TideInfo> GetTideDetailsForDay(Village village, TimeOfDay timeOfDay, int month, int day)
+	public List<TideInfo> GetTideDetailsForDate(Village village, DateOnly date, TimeOfDay timeOfDay)
 	{
-		var yearlyTides = GetVillageTidesForYear(village);
+		List<TideDay> yearlyTides = GetVillageTidesForYear(village);
 
-		var dayTides = yearlyTides.First(t => t.Date.Month == month && t.Date.Day == day);
+		TideDay dayTides = yearlyTides.First(t => t.Date.Month == date.Month && t.Date.Day == date.Day);
 
 		// Compute the next date from dayTides.Date and get those tides
 		DateOnly nextDate = dayTides.Date.AddDays(1);
-		var nextDayTides = yearlyTides.FirstOrDefault(t => t.Date == nextDate);
+		TideDay? nextDayTides = yearlyTides.FirstOrDefault(t => t.Date == nextDate);
 
 		// Work with the tide infos
 		List<TideInfo> tideInfos = dayTides.Tides;
 
 		// Get the window of time
-		TimeWindow timeWindow = TimeWindowCalculator.GetTimeWindowForDate(month, day, timeOfDay);
+		TimeWindow timeWindow = TimeWindowCalculator.GetTimeWindow(date, timeOfDay);
 
 		// Get tides that occur after window start (sorted by time)
-		var tidesAfterWindow = dayTides.Tides
+		List<TideInfo> tidesAfterWindow = dayTides.Tides
 			.Where(t => t.Timeframe >= timeWindow.Start)
 			.OrderBy(t => t.Timeframe)
 			.ToList();
@@ -79,7 +79,7 @@ public class ParseTides
 		if (finalTides.Count < 3 && nextDayTides != null)
 		{
 			int needed = 3 - finalTides.Count;
-			var nextDayTidesList = nextDayTides.Tides
+			List<TideInfo> nextDayTidesList = nextDayTides.Tides
 				.OrderBy(t => t.Timeframe)
 				.ToList();
 			finalTides.AddRange(nextDayTidesList.Take(needed));
@@ -90,14 +90,14 @@ public class ParseTides
 
 	private List<TideDay> ParseTideGroup(WorkSheet sheet, string startCol, string endCol, Village village)
 	{
-		List<TideInfo> tides = new List<TideInfo>();
+		List<TideInfo> tides = new();
 
 		// Loop through the rows
 		// Start at 4 because it's the first row of data
 		for (int i = 4; i < 1825; i++)
 		{
 			// Get all cells for the day
-			var cells = sheet[$"{startCol}{i}:{endCol}{i}"].ToList();
+			List<Cell> cells = sheet[$"{startCol}{i}:{endCol}{i}"].ToList();
 
 			// Skip empty rows
 			if (cells[0].IsEmpty || cells[0].Text.Contains('=')) continue;
@@ -109,17 +109,17 @@ public class ParseTides
 			string height = cells[3].Text;
 			string time = cells[4].Text;
 
-			TideInfo tide = new TideInfo(date, day, type, height, time);
+			TideInfo tide = new(date, day, type, height, time);
 			tides.Add(tide);
 		}
 
 		// Group by date
-		var groupedTides = tides.GroupBy(t => t.Date).ToList();
-		List<TideDay> tideDays = new List<TideDay>();
-		foreach (var group in groupedTides)
+		List<IGrouping<DateOnly, TideInfo>> groupedTides = tides.GroupBy(t => t.Date).ToList();
+		List<TideDay> tideDays = new();
+		foreach (IGrouping<DateOnly, TideInfo>? group in groupedTides)
 		{
-			TideDay tideDay = new TideDay(group.Key, village);
-			foreach (var tide in group)
+			TideDay tideDay = new(group.Key, village);
+			foreach (TideInfo? tide in group)
 			{
 				tideDay.AddTide(tide);
 			}

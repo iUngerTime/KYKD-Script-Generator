@@ -8,24 +8,24 @@ public static class DaylightLineBuilder
 {
 	public static string BuildSunrise(DaylightRecord record, TimeOfDay timeOfDay)
 	{
-		var timeWindow = TimeWindowCalculator.GetTimeWindowForDate(record.Date.Month, record.Date.Day, timeOfDay);
-		var sunrise = record.Sunrise;
-		// Example logic: format sunrise with time window
+		TimeWindow timeWindow = TimeWindowCalculator.GetTimeWindow(record.Date, timeOfDay);
+		TimeOnly sunrise = record.Sunrise;
+
 		return $"Sunrise: {sunrise:HH:mm} ({timeWindow})";
 	}
 
 	public static string BuildSunset(DaylightRecord record, TimeOfDay timeOfDay)
 	{
-		var timeWindow = TimeWindowCalculator.GetTimeWindowForDate(record.Date.Month, record.Date.Day, timeOfDay);
-		var sunset = record.Sunset;
-		// Example logic: format sunset with time window
+		TimeWindow timeWindow = TimeWindowCalculator.GetTimeWindow(record.Date, timeOfDay);
+		TimeOnly sunset = record.Sunset;
+
 		return $"Sunset: {sunset:HH:mm} ({timeWindow})";
 	}
 
 	public static string BuildDaylightLength(DaylightRecord record)
 	{
-		var length = record.Sunset - record.Sunrise;
-		// Example logic: format time difference
+		TimeSpan length = record.Sunset - record.Sunrise;
+
 		return $"Daylight Length: {length.Hours}h {length.Minutes}m";
 	}
 }
