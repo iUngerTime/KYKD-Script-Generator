@@ -8,8 +8,6 @@ Now let’s look at the KYKD sunrise and sunset times and the tide predictions f
 **(Month)**  
 **(Date)**
 
----
-
 ## Sunrise
 
 **The sun rose this morning in Bethel at:**  
@@ -18,8 +16,6 @@ Now let’s look at the KYKD sunrise and sunset times and the tide predictions f
 **or**  
 **Sunrise this morning in Bethel:**  
 `__________________`
-
----
 
 ## Sunset
 
@@ -34,14 +30,10 @@ Now let’s look at the KYKD sunrise and sunset times and the tide predictions f
 **And the sun set at:**  
 `_____________`
 
----
-
 ## Daylight Duration
 
 Giving us `_________` hours and `___________` minutes of daylight,  
 `____` minutes and `____` seconds **less / more** than yesterday.
-
----
 
 ## Tide Predictions
 
@@ -56,8 +48,6 @@ Giving us `_________` hours and `___________` minutes of daylight,
 `__________` feet at `__________`  
 *(time)*
 
----
-
 ### Quinhagak
 
 **The next (high/low) tide at Quinhagak will be at:**  
@@ -69,8 +59,6 @@ Giving us `_________` hours and `___________` minutes of daylight,
 `__________` feet at `__________`  
 *(time)*
 
----
-
 ### Togiak (Black Rock)
 
 **The next (high/low) tide for Togiak at Black Rock will be at:**  
@@ -81,8 +69,6 @@ Giving us `_________` hours and `___________` minutes of daylight,
 **The tide tables for Togiak at Black Rock show a (high/low) tide of:**  
 `__________` feet at `__________`  
 *(time)*
-
----
 
 ## Closing
 

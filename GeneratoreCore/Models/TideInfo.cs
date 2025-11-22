@@ -49,18 +49,4 @@ public class TideInfo
 	{
 		return $"{Day} {Type} tide at {Timeframe.ToShortTimeString()} of {Height} feet.";
 	}
-
-	public string WithinRangeTideString(Village village)
-	{
-		return $"The tide tables for {village.ToShortString()} show a {Type} tide of {Height} feet at {Timeframe}.";
-	}
-	public string OutOfRangeTideString(Village village)
-	{
-		return $"The next {Type} tide at {village.ToShortString()} will be at {Timeframe.ToShortTimeString()} of {Height} feet.";
-	}
-
-	public string RegularTideInfoString()
-	{
-		return $"At {Timeframe}, {Type} tide of {Height} feet.";
-	}
 }

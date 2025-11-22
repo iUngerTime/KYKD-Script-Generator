@@ -2,7 +2,7 @@
 
 namespace GenerationTests;
 
-public class TestParsing
+public class ParsingTests
 {
 	[Fact]
 	public void Parse2025Data()

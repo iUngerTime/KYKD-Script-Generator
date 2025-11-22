@@ -1,6 +1,7 @@
 using GeneratorCore.Helpers;
 using GeneratorCore.Models;
 using GeneratorCore.Models.Enums;
+using System.Text;
 
 namespace GeneratoreCore.Builders;
 
@@ -39,12 +40,12 @@ public static class DaylightLineBuilder
 		// After midnight case (00:XX)
 		if (sunset.Hour == 0)
 		{
-			return $"and the sun will set {sunset.Minute} minutes after midnight.";
+			return $"And the sun will set {sunset.Minute} minutes after midnight.";
 		}
 
 		if (sunset < eveningStart)
 		{
-			return $"The sun set in Bethel this afternoon/evening at {FormatTime12Hour(sunset)}.";
+			return $"And the sun set in Bethel this afternoon/evening at {FormatTime12Hour(sunset)}.";
 		}
 
 		if (sunset >= eveningStart && sunset <= eveningEnd)
@@ -54,11 +55,11 @@ public static class DaylightLineBuilder
 
 		if (sunset > eveningEnd && sunset.Hour < 24)
 		{
-			return $"and the sun will set this evening at {FormatTime12Hour(sunset)}.";
+			return $"And the sun will set this evening at {FormatTime12Hour(sunset)}.";
 		}
 
 		// Fallback
-		return $"Sunset in Bethel at {FormatTime12Hour(sunset)}.";
+		return $"And Sunset in Bethel at {FormatTime12Hour(sunset)}.";
 	}
 
 	/// <summary>
@@ -77,23 +78,54 @@ public static class DaylightLineBuilder
 		var windowStart = window.Start;
 		var windowEnd = window.End;
 
+		string? sunDuration = CreateDurationString(record);
+
 		// Determine tense based on sunset relative to evening window.
 		if (sunset < windowStart)
 		{
-			return $"That gave us {hours} hours {minutes} minutes of daylight.";
+			return $"That gave us {hours} hours {minutes} minutes of daylight. {sunDuration}";
 		}
 
 		if (sunset >= windowStart && sunset <= windowEnd)
 		{
-			return $"Giving us {hours} hours {minutes} minutes of daylight.";
+			return $"Giving us {hours} hours {minutes} minutes of daylight. {sunDuration}";
 		}
 
 		// Includes sunset after window or after midnight
-		return $"That will give us {hours} hours {minutes} minutes of daylight.";
+		return $"That will give us {hours} hours {minutes} minutes of daylight. {sunDuration}";
 	}
 
 	private static string FormatTime12Hour(TimeOnly time)
 	{
 		return time.ToString("h:mm tt").ToLower(); // e.g., "6:08 am"
+	}
+
+	private static string CreateDurationString(DaylightRecord record)
+	{
+		int minutes = record.Duration.Minute;
+		int seconds = record.Duration.Second;
+
+		StringBuilder duration = new StringBuilder();
+
+		if (minutes > 0)
+		{
+			duration.Append($"{minutes} minute{(minutes > 1 ? "s" : string.Empty)}");
+		}
+
+		if (seconds > 0)
+		{
+			if (duration.Length > 0)
+			{
+				duration.Append(" and ");
+			}
+			duration.Append($"{seconds} second{(seconds > 1 ? "s" : string.Empty)}");
+		}
+
+		if (duration.Length > 0)
+		{
+			duration.Append($" {record.ChangeQuantifier} than yesterday.");
+		}
+
+		return duration.ToString();
 	}
 }

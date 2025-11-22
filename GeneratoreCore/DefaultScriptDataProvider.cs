@@ -32,7 +32,7 @@ public class DefaultScriptDataProvider : IScriptDataProvider
 
 		return new ScriptContext
 		{
-			PeriodLabel = timeOfDay.ToShortString(),
+			PeriodLabel = timeOfDay.NameString(),
 			DayOfWeek = date.DayOfWeek.ToString(),
 			Month = date.ToString("MMMM"),
 			Day = day,

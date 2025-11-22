@@ -43,7 +43,7 @@ public class DaylightParser
 			string sunset = cells[4].StringValue;
 			string duration = cells[5].Text;
 			string change = cells[6].Text;
-			string quantifier = cells[8].Text;
+			string quantifier = cells[7].Text;
 
 			DaylightRecord tide = new(month, day, sunrise, sunset, duration, change, quantifier);
 			allDaylightRecords.Add(tide);
