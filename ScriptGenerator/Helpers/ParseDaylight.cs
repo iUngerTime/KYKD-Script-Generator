@@ -1,7 +1,7 @@
 ﻿using IronXL;
-using TidesAndSunrise.Models;
+using ScriptGenerator.Models;
 
-namespace TidesAndSunrise.Helpers;
+namespace ScriptGenerator.Helpers;
 
 class ParseDaylight
 {

@@ -1,4 +1,4 @@
-﻿namespace TidesAndSunrise.Enums;
+﻿namespace ScriptGenerator.Models.Enums;
 
 public enum TimeOfDay
 {

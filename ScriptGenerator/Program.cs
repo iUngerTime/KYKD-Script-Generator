@@ -1,5 +1,5 @@
-﻿using TidesAndSunrise.Enums;
-using TidesAndSunrisesScriptGenerator.Helpers;
+﻿using ScriptGenerator.Helpers;
+using ScriptGenerator.Models.Enums;
 
 
 //List<TideInfo> results = parseTides.GetTideDetailsForDay(Village.Togiak, TimeOfDay.Afternoon, 6, 6);
@@ -14,8 +14,8 @@ for (int month = 3; month <= 12; month++)
 	int daysInMonth = DateTime.DaysInMonth(year, month);
 	for (int day = 1; day <= daysInMonth; day++)
 	{
-		ScriptGenerator.CreateTideScript(month, day, TimeOfDay.Morning);
-		ScriptGenerator.CreateTideScript(month, day, TimeOfDay.Evening);
+		Generator.CreateTideScript(month, day, TimeOfDay.Morning);
+		Generator.CreateTideScript(month, day, TimeOfDay.Evening);
 	}
 }
 

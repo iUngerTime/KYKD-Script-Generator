@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using TidesAndSunrise.Enums;
+using ScriptGenerator.Models.Enums;
 
-namespace TidesAndSunrise.Models;
+namespace ScriptGenerator.Models;
 
 public class TideDay
 {

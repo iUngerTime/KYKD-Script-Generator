@@ -1,11 +1,11 @@
 ﻿using System.Text;
-using TidesAndSunrise.Enums;
-using TidesAndSunrise.Helpers;
-using TidesAndSunrise.Models;
+using ScriptGenerator.Helpers;
+using ScriptGenerator.Models;
+using ScriptGenerator.Models.Enums;
 
-namespace TidesAndSunrisesScriptGenerator.Helpers;
+namespace ScriptGenerator.Helpers;
 
-public static class ScriptGenerator
+public static class Generator
 {
 	public static StringBuilder CreateTideScript(int month, int day, TimeOfDay timeOfDay)
 	{

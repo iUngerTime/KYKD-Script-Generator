@@ -22,7 +22,7 @@ See More: <https://www.vfcm.org/about>
 ## Extending
 
 1. Add new year spreadsheets under `Resources/<YEAR> Tides and Daylight Scripts/`.
-2. Update the `<ItemGroup>` in [TidesAndSunrise/TidesAndSunrisesScriptGenerator.csproj](TidesAndSunrise/TidesAndSunrisesScriptGenerator.csproj) with `<None Update="...">` entries.
+2. Update the `<ItemGroup>` in [ScriptGenerator/ScriptGenerator.csproj](ScriptGenerator/ScriptGenerator.csproj) with `<None Update="...">` entries.
 3. Implement parsing helpers in `Helpers/` and domain models in `Models/`.
 
 ## Excel Inputs

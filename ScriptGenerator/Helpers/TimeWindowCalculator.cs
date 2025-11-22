@@ -1,7 +1,7 @@
-﻿using TidesAndSunrise.Enums;
-using TidesAndSunrise.Models;
+﻿using ScriptGenerator.Models;
+using ScriptGenerator.Models.Enums;
 
-namespace TidesAndSunrisesScriptGenerator.Helpers;
+namespace ScriptGenerator.Helpers;
 
 static class TimeWindowCalculator
 {

@@ -1,4 +1,4 @@
-﻿namespace TidesAndSunrise.Models;
+﻿namespace ScriptGenerator.Models;
 
 public class TimeWindow
 {

@@ -1,9 +1,9 @@
 ﻿using IronXL;
-using TidesAndSunrise.Enums;
-using TidesAndSunrise.Models;
-using TidesAndSunrisesScriptGenerator.Helpers;
+using ScriptGenerator.Models;
+using ScriptGenerator.Helpers;
+using ScriptGenerator.Models.Enums;
 
-namespace TidesAndSunrise.Helpers;
+namespace ScriptGenerator.Helpers;
 
 public class ParseTides
 {
