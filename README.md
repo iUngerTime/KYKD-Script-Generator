@@ -22,16 +22,4 @@ See More: <https://www.vfcm.org/about>
 ## Extending
 
 1. Add new year spreadsheets under `Resources/<YEAR> Tides and Daylight Scripts/`.
-2. Update the `<ItemGroup>` in [ScriptGenerator/ScriptGenerator.csproj](ScriptGenerator/ScriptGenerator.csproj) with `<None Update="...">` entries.
-3. Implement parsing helpers in `Helpers/` and domain models in `Models/`.
-
-## Excel Inputs
-
-The project references:
-
-- 2025 Bethel Daylight.xlsx
-- 2025 Tides.xlsx
-- 2026 Bethel Daylight.xlsx
-- 2026 Tides.xlsx
-
-They are marked with `CopyToOutputDirectory=PreserveNewest` in the project file so runtime access does not require manual copying.
+2. Update any rulesets in the help methods like TimeWindowCalculator.
