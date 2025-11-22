@@ -1,4 +1,4 @@
-﻿namespace ScriptGenerator.Models.Enums;
+﻿namespace GeneratorCore.Models.Enums;
 
 public enum Village
 {

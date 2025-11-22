@@ -1,7 +1,7 @@
-﻿using System.Text;
-using ScriptGenerator.Models.Enums;
+﻿using GeneratorCore.Models.Enums;
+using System.Text;
 
-namespace ScriptGenerator.Models;
+namespace GeneratorCore.Models;
 
 public class TideDay
 {

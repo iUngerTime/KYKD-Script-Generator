@@ -1,4 +1,4 @@
-﻿namespace ScriptGenerator.Models;
+﻿namespace GeneratorCore.Models;
 
 public class TimeWindow
 {

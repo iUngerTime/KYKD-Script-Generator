@@ -1,6 +1,5 @@
-﻿using ScriptGenerator.Helpers;
-using ScriptGenerator.Models.Enums;
-
+﻿using GeneratorCore.Helpers;
+using GeneratorCore.Models.Enums;
 
 //List<TideInfo> results = parseTides.GetTideDetailsForDay(Village.Togiak, TimeOfDay.Afternoon, 6, 6);
 //foreach (var tide in results)

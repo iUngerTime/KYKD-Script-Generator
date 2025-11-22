@@ -1,9 +1,8 @@
-﻿using System.Text;
-using ScriptGenerator.Helpers;
-using ScriptGenerator.Models;
-using ScriptGenerator.Models.Enums;
+﻿using GeneratorCore.Models;
+using GeneratorCore.Models.Enums;
+using System.Text;
 
-namespace ScriptGenerator.Helpers;
+namespace GeneratorCore.Helpers;
 
 public static class Generator
 {

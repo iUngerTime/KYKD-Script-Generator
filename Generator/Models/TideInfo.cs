@@ -1,6 +1,6 @@
-﻿using ScriptGenerator.Models.Enums;
+﻿using GeneratorCore.Models.Enums;
 
-namespace ScriptGenerator.Models;
+namespace GeneratorCore.Models;
 
 public class TideInfo
 {

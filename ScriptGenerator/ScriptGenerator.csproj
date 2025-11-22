@@ -8,27 +8,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Resources\" />
+	  <Compile Remove="Resources\**" />
+	  <EmbeddedResource Remove="Resources\**" />
+	  <None Remove="Resources\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ExcelDataReader" Version="3.8.0" />
-		<PackageReference Include="IronXL.Excel" Version="2025.11.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="Resources\2025 Tides and Daylight Scripts\2025 Bethel Daylight.xlsx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\2025 Tides and Daylight Scripts\2025 Tides.xlsx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\2026 Tides and Daylight Scripts\2026 Bethel Daylight.xlsx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\2026 Tides and Daylight Scripts\2026 Tides.xlsx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+	  <ProjectReference Include="..\Generator\GeneratorCore.csproj" />
 	</ItemGroup>
 
 </Project>

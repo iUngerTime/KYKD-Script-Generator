@@ -1,9 +1,8 @@
-﻿using IronXL;
-using ScriptGenerator.Models;
-using ScriptGenerator.Helpers;
-using ScriptGenerator.Models.Enums;
+﻿using GeneratorCore.Models;
+using GeneratorCore.Models.Enums;
+using IronXL;
 
-namespace ScriptGenerator.Helpers;
+namespace GeneratorCore.Helpers;
 
 public class ParseTides
 {

@@ -1,7 +1,7 @@
-﻿using IronXL;
-using ScriptGenerator.Models;
+﻿using GeneratorCore.Models;
+using IronXL;
 
-namespace ScriptGenerator.Helpers;
+namespace GeneratorCore.Helpers;
 
 class ParseDaylight
 {

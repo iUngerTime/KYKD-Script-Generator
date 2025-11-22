@@ -1,7 +1,7 @@
-﻿using ScriptGenerator.Models;
-using ScriptGenerator.Models.Enums;
+﻿using GeneratorCore.Models;
+using GeneratorCore.Models.Enums;
 
-namespace ScriptGenerator.Helpers;
+namespace GeneratorCore.Helpers;
 
 static class TimeWindowCalculator
 {
