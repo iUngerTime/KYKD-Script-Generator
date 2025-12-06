@@ -102,8 +102,9 @@ public static class DaylightLineBuilder
 
 	private static string CreateDurationString(DaylightRecord record)
 	{
-		int minutes = record.Duration.Minute;
-		int seconds = record.Duration.Second;
+		// This is looks wrong, but the excel document is formatted in times and showing the wrong data.
+		int minutes = record.Change?.Hour ?? 0;
+		int seconds = record.Change?.Minute ?? 0;
 
 		StringBuilder duration = new StringBuilder();
 
