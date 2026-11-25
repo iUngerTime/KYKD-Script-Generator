@@ -36,16 +36,28 @@ public static class VillageTideLineBuilder
 
 	public static string WithinRangeTideString(TideInfo tide, Village village)
 	{
-		return $"The tide tables for {village.ToShortString()} show a {tide.Type} tide of {tide.Height} feet at {tide.Timeframe}.";
+		return $"The tide tables for {village.ToShortString()} show a {tide.Type} tide of {tide.Height} feet at {FormatTime(tide.Timeframe)}.";
 	}
 
 	public static string OutOfRangeTideString(TideInfo tide, Village village)
 	{
-		return $"The next {tide.Type} tide at {village.ToShortString()} will be at {tide.Timeframe.ToShortTimeString()} of {tide.Height} feet.";
+		return $"The next {tide.Type} tide at {village.ToShortString()} will be at {FormatTime(tide.Timeframe)} of {tide.Height} feet.";
 	}
 
 	public static string RegularTideInfoString(TideInfo tide)
 	{
-		return $"At {tide.Timeframe}, {tide.Type} tide of {tide.Height} feet.";
+		return $"At {FormatTime(tide.Timeframe)}, {tide.Type} tide of {tide.Height} feet.";
+	}
+
+	/// <summary>
+	/// Formats a tide time like "11:05 AM".
+	/// </summary>
+	/// <param name="time">The tide time.</param>
+	/// <returns>The time with a plain space before AM/PM.</returns>
+	/// <remarks>Pinned to the invariant culture because newer ICU culture data puts a narrow
+	/// no-break space (U+202F) before AM/PM, which breaks the scripts for readers.</remarks>
+	private static string FormatTime(TimeOnly time)
+	{
+		return time.ToString("h:mm tt", System.Globalization.CultureInfo.InvariantCulture);
 	}
 }

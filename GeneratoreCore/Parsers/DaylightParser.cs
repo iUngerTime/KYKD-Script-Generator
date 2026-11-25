@@ -1,5 +1,5 @@
 ﻿using GeneratorCore.Models;
-using IronXL;
+using GeneratorCore.Helpers;
 
 namespace GeneratoreCore.Parsers;
 
@@ -24,26 +24,22 @@ public class DaylightParser
 
 	public void LoadDaylightRecords(string excelDataPath)
 	{
-		// Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
-		WorkBook workbook = WorkBook.Load(excelDataPath);
-		WorkSheet sheet = workbook.WorkSheets.First();
+		List<object?[]> rows = ExcelSheetReader.ReadFirstSheet(excelDataPath);
 
-		for (int i = 2; i < 366; i++)
+		// Row 1 is the header; data runs until the rows go blank (365 or 366 days).
+		foreach (object?[] row in rows.Skip(1))
 		{
-			// Get all cells for the daylight record
-			List<Cell> cells = sheet[$"A{i}:I{i}"].ToList();
-
 			// Skip empty rows
-			if (cells[0].IsEmpty || cells[0].Text.Contains('=')) continue;
+			if (ExcelSheetReader.IsSkippable(ExcelSheetReader.Cell(row, 0))) continue;
 
 			// Parse the daylight record
-			string month = cells[1].Text;
-			string day = cells[2].StringValue;
-			string sunrise = cells[3].StringValue;
-			string sunset = cells[4].StringValue;
-			string duration = cells[5].Text;
-			string change = cells[6].Text;
-			string quantifier = cells[7].Text;
+			string month = ExcelSheetReader.ToInvariantString(ExcelSheetReader.Cell(row, 1));
+			string day = ExcelSheetReader.ToInvariantString(ExcelSheetReader.Cell(row, 2));
+			string sunrise = ExcelSheetReader.ToTimeString(ExcelSheetReader.Cell(row, 3));
+			string sunset = ExcelSheetReader.ToTimeString(ExcelSheetReader.Cell(row, 4));
+			string duration = ExcelSheetReader.ToTimeString(ExcelSheetReader.Cell(row, 5));
+			string change = ExcelSheetReader.ToTimeString(ExcelSheetReader.Cell(row, 6));
+			string quantifier = ExcelSheetReader.ToInvariantString(ExcelSheetReader.Cell(row, 7));
 
 			DaylightRecord tide = new(month, day, sunrise, sunset, duration, change, quantifier);
 			allDaylightRecords.Add(tide);

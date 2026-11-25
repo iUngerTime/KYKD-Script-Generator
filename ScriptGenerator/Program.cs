@@ -2,7 +2,7 @@
 using GeneratoreCore;
 
 // Configuration
-int year = 2026;
+int year = 2027;
 string resourceDir = $"{year} Tides and Daylight Scripts";
 string tidesExcel = $"{year} Tides.xlsx";
 string daylightExcel = $"{year} Bethel Daylight.xlsx";
@@ -20,7 +20,7 @@ string scriptsOutputDir = Path.Combine(baseDir, outputDir);
 Directory.CreateDirectory(scriptsOutputDir);
 
 DefaultScriptDataProvider provider = new();
-TideScriptGenerator generator = new(provider, daylightExcelPath, tidesExcelPath, templatePath);
+TideScriptGenerator generator = new(provider, daylightExcelPath, tidesExcelPath, templatePath, year: year);
 
 // Loop through all days of the year
 for (int month = 1; month <= 12; month++)

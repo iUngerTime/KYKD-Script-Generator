@@ -12,7 +12,7 @@ public class TideScriptGenerator
 	private readonly string _templatePath;
 
 	public TideScriptGenerator(IScriptDataProvider provider, string daylightExcelDataPath,
-		string tidesExcelDataPath, string templatePath)
+		string tidesExcelDataPath, string templatePath, int? year = null)
 	{
 		_provider = provider;
 		_daylightExcelDataPath = daylightExcelDataPath;
@@ -21,7 +21,7 @@ public class TideScriptGenerator
 
 		// Initialize data parsers
 		DaylightParser.GetInstance().LoadDaylightRecords(_daylightExcelDataPath);
-		TideParser.GetInstance().LoadTideInfo(_tidesExcelDataPath);
+		TideParser.GetInstance().LoadTideInfo(_tidesExcelDataPath, year);
 	}
 
 	public string GenerateScriptForDay(DateOnly date, TimeOfDay timeOfDay)

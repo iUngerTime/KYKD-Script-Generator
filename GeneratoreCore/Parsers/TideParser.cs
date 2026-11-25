@@ -1,7 +1,6 @@
 ﻿using GeneratorCore.Helpers;
 using GeneratorCore.Models;
 using GeneratorCore.Models.Enums;
-using IronXL;
 
 namespace GeneratoreCore.Parsers;
 
@@ -24,17 +23,21 @@ public class TideParser
 
 	List<TideDay> allTidesAllVilages = new();
 
-	public void LoadTideInfo(string excelDataPath)
+	/// <summary>
+	/// Loads every village's tides from the tides spreadsheet.
+	/// </summary>
+	/// <param name="excelDataPath">Path to the tides xlsx file.</param>
+	/// <param name="year">The year the sheet starts in. The sheet's date cells only display day and month,
+	/// and their stored year is often stale, so it is used only when no year is given.</param>
+	public void LoadTideInfo(string excelDataPath, int? year = null)
 	{
-		// Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
-		WorkBook workbook = WorkBook.Load(excelDataPath);
-		WorkSheet sheet = workbook.WorkSheets.First();
+		List<object?[]> rows = ExcelSheetReader.ReadFirstSheet(excelDataPath);
 
 		List<TideDay> tides =
 		[
-			.. ParseTideGroup(sheet, "B", "F", Village.Bethel),
-			.. ParseTideGroup(sheet, "H", "L", Village.Quinhagak),
-			.. ParseTideGroup(sheet, "N", "R", Village.Togiak),
+			.. ParseTideGroup(rows, 1, Village.Bethel, year),
+			.. ParseTideGroup(rows, 7, Village.Quinhagak, year),
+			.. ParseTideGroup(rows, 13, Village.Togiak, year),
 		];
 
 		allTidesAllVilages = tides;
@@ -86,26 +89,40 @@ public class TideParser
 		return finalTides;
 	}
 
-	private List<TideDay> ParseTideGroup(WorkSheet sheet, string startCol, string endCol, Village village)
+	/// <summary>
+	/// Parses one village's five-column block (Date, Day, Type, Height, Time).
+	/// </summary>
+	/// <param name="rows">All sheet rows.</param>
+	/// <param name="startColumn">Zero-based index of the block's Date column.</param>
+	/// <param name="village">The village the block belongs to.</param>
+	/// <param name="year">The year the sheet starts in, or null to use the first date cell's year.</param>
+	/// <returns>The village's tides grouped by day, in date order.</returns>
+	private List<TideDay> ParseTideGroup(List<object?[]> rows, int startColumn, Village village, int? year)
 	{
 		List<TideInfo> tides = new();
+		int? currentYear = year;
+		int previousMonth = 0;
 
-		// Loop through the rows
-		// Start at 4 because it's the first row of data
-		for (int i = 4; i < 1825; i++)
+		// Rows 1-3 are the village name, the column headers, and a "====" separator.
+		foreach (object?[] row in rows.Skip(3))
 		{
-			// Get all cells for the day
-			List<Cell> cells = sheet[$"{startCol}{i}:{endCol}{i}"].ToList();
+			object? dateCell = ExcelSheetReader.Cell(row, startColumn);
 
 			// Skip empty rows
-			if (cells[0].IsEmpty || cells[0].Text.Contains('=')) continue;
+			if (ExcelSheetReader.IsSkippable(dateCell)) continue;
 
-			// The first cell is the day of the week
-			string date = cells[0].Text;
-			string day = cells[1].Text;
-			string type = cells[2].Text;
-			string height = cells[3].Text;
-			string time = cells[4].Text;
+			DateTime cellDate = Convert.ToDateTime(dateCell, System.Globalization.CultureInfo.InvariantCulture);
+			currentYear ??= cellDate.Year;
+
+			// The sheet runs into the next January (Dec 31 evening needs Jan 1 tides).
+			if (cellDate.Month < previousMonth) currentYear++;
+			previousMonth = cellDate.Month;
+
+			string date = new DateOnly(currentYear.Value, cellDate.Month, cellDate.Day).ToString("yyyy-MM-dd");
+			string day = ExcelSheetReader.ToInvariantString(ExcelSheetReader.Cell(row, startColumn + 1));
+			string type = ExcelSheetReader.ToInvariantString(ExcelSheetReader.Cell(row, startColumn + 2));
+			string height = ExcelSheetReader.ToInvariantString(ExcelSheetReader.Cell(row, startColumn + 3));
+			string time = ExcelSheetReader.ToTimeString(ExcelSheetReader.Cell(row, startColumn + 4));
 
 			TideInfo tide = new(date, day, type, height, time);
 			tides.Add(tide);

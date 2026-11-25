@@ -97,7 +97,7 @@ public static class DaylightLineBuilder
 
 	private static string FormatTime12Hour(TimeOnly time)
 	{
-		return time.ToString("h:mm tt").ToLower(); // e.g., "6:08 am"
+		return time.ToString("h:mm tt", System.Globalization.CultureInfo.InvariantCulture).ToLower(); // e.g., "6:08 am"
 	}
 
 	private static string CreateDurationString(DaylightRecord record)

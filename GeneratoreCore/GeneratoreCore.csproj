@@ -9,7 +9,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="ExcelDataReader" Version="3.8.0" />
-		<PackageReference Include="IronXL.Excel" Version="2025.11.2" />
 	</ItemGroup>
 
 </Project>
